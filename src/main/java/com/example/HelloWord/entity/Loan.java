@@ -21,8 +21,8 @@ public class Loan {
             generator = "loan_sequence"
     )
     private Long id ;
-    private LocalDate loan_date;
-    private LocalDate return_date;
+    private LocalDate loanDate;
+    private LocalDate returnDate;
 
     @OneToOne
     private Book book;
@@ -33,17 +33,17 @@ public class Loan {
     public Loan() {
     }
 
-    public Loan(Long id, LocalDate loan_date, LocalDate return_date, Book book, LibraryUser user) {
+    public Loan(Long id, LocalDate loanDate, LocalDate returnDate, Book book, LibraryUser user) {
         this.id = id;
-        this.loan_date = loan_date;
-        this.return_date = return_date;
+        this.loanDate = loanDate;
+        this.returnDate = returnDate;
         this.book = book;
         this.user = user;
     }
 
-    public Loan(LocalDate loan_date, LocalDate return_date, Book book, LibraryUser user) {
-        this.loan_date = loan_date;
-        this.return_date = return_date;
+    public Loan(LocalDate loanDate, LocalDate returnDate, Book book, LibraryUser user) {
+        this.loanDate = loanDate;
+        this.returnDate = returnDate;
         this.book = book;
         this.user = user;
     }
@@ -56,20 +56,20 @@ public class Loan {
         this.id = id;
     }
 
-    public LocalDate getLoan_date() {
-        return loan_date;
+    public LocalDate getLoanDate() {
+        return loanDate;
     }
 
-    public void setLoan_date(LocalDate loan_date) {
-        this.loan_date = loan_date;
+    public void setLoanDate(LocalDate loanDate) {
+        this.loanDate = loanDate;
     }
 
-    public LocalDate getReturn_date() {
-        return return_date;
+    public LocalDate getReturnDate() {
+        return returnDate;
     }
 
-    public void setReturn_date(LocalDate return_date) {
-        this.return_date = return_date;
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
     }
 
     public Book getBook() {

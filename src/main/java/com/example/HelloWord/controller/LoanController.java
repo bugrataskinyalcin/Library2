@@ -17,28 +17,28 @@ import java.util.List;
 @RequestMapping(path="/api/v1/loan")
 public class LoanController {
 
-    private  final LoanService loan_service;
+    private  final LoanService loanService;
 
     @Autowired
-    public LoanController(LoanService loan_service) {
-        this.loan_service = loan_service;
+    public LoanController(LoanService loanService) {
+        this.loanService = loanService;
     }
 
     @GetMapping
     public ResponseEntity< List<Loan> > getLoans(){
-        return  new ResponseEntity<>(loan_service.getLoans(),HttpStatus.OK);
+        return  new ResponseEntity<>(loanService.getLoans(),HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<String> createNewLoan(@RequestBody Loan loan){
-        loan_service.addNewLoan(loan);
+        loanService.addNewLoan(loan);
         return new ResponseEntity<>("new loan has created",HttpStatus.OK);
     }
 
     //this is how we obtain strings from path
     @DeleteMapping(path = "{loanId}")
     public ResponseEntity<String> deleteLoan(@PathVariable("loanId") Long loanId){
-        loan_service.deleteLoan(loanId);
+        loanService.deleteLoan(loanId);
         return new ResponseEntity<>("loan deleted succesfully",HttpStatus.OK);
     }
     @PutMapping(path = "{loanId}")
@@ -50,7 +50,7 @@ public class LoanController {
             @RequestParam(required = false) LocalDate returnDate)
 
     {
-        loan_service.updateLoan(loanId,book,libraryUser,loanDate,returnDate);
+        loanService.updateLoan(loanId,book,libraryUser,loanDate,returnDate);
     }
 
 }

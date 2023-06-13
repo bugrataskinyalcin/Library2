@@ -14,40 +14,40 @@ import java.util.Optional;
 @Service
 public class BookDemandService {
 
-    private final BookDemandRepository book_demand_repository;
+    private final BookDemandRepository bookDemandRepository;
 
     @Autowired
-    public BookDemandService(BookDemandRepository book_demand_repository) {
-        this.book_demand_repository = book_demand_repository;
+    public BookDemandService(BookDemandRepository bookDemandRepository) {
+        this.bookDemandRepository = bookDemandRepository;
     }
 
     public List<BookDemand> getBookDemands(){
-        return book_demand_repository.findAll();
+        return bookDemandRepository.findAll();
     }
 
-    public void addNewBookDemand(BookDemand book_demand) {
-        book_demand_repository.save(book_demand);
+    public void addNewBookDemand(BookDemand bookDemand) {
+        bookDemandRepository.save(bookDemand);
     }
 
-    public void deleteBookDemand(Long book_demandId) {
-        boolean exists = book_demand_repository.existsById(book_demandId);
+    public void deleteBookDemand(Long bookDemandId) {
+        boolean exists = bookDemandRepository.existsById(bookDemandId);
 
         if(!exists)
-            throw new IllegalStateException("book_demand with id" + book_demandId + "does not exists");
+            throw new IllegalStateException("bookDemand with id" + bookDemandId + "does not exists");
 
-        book_demand_repository.deleteById(book_demandId);
+        bookDemandRepository.deleteById(bookDemandId);
 
     }
 
 
-    //with that anotation we dont need book_demand  service .
+    //with that anotation we dont need bookDemand  service .
     @Transactional
-    public void updateBookDemand(Long book_demandId,String title) {
+    public void updateBookDemand(Long bookDemandId,String title) {
 
-        BookDemand book_demand = book_demand_repository.findById(book_demandId).orElseThrow( () ->new IllegalStateException("book_demand with id" + book_demandId + "does not exists"));
+        BookDemand bookDemand = bookDemandRepository.findById(bookDemandId).orElseThrow( () ->new IllegalStateException("bookDemand with id" + bookDemandId + "does not exists"));
 
-        if(title != null && title.length()>0 && !Objects.equals(book_demand.getTitle(),title)){
-            book_demand.setTitle(title);
+        if(title != null && title.length()>0 && !Objects.equals(bookDemand.getTitle(),title)){
+            bookDemand.setTitle(title);
         }
     }
 }

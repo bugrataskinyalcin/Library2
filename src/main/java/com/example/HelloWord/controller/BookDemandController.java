@@ -14,32 +14,32 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/v1/book_demand")
+@RequestMapping(path="/api/v1/bookDemand")
 public class BookDemandController {
 
-    private  final BookDemandService book_demand_service;
+    private  final BookDemandService bookDemandService;
 
     @Autowired
-    public BookDemandController(BookDemandService book_demand_service) {
-        this.book_demand_service = book_demand_service;
+    public BookDemandController(BookDemandService bookDemandService) {
+        this.bookDemandService = bookDemandService;
     }
 
     @GetMapping
     public ResponseEntity< List<BookDemand> > getBookDemands(){
-        return  new ResponseEntity<>(book_demand_service.getBookDemands(),HttpStatus.OK);
+        return  new ResponseEntity<>(bookDemandService.getBookDemands(),HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> createNewBookDemand(@RequestBody BookDemand book_demand){
-        book_demand_service.addNewBookDemand(book_demand);
-        return new ResponseEntity<>("new book_demand has created",HttpStatus.OK);
+    public ResponseEntity<String> createNewBookDemand(@RequestBody BookDemand bookDemand){
+        bookDemandService.addNewBookDemand(bookDemand);
+        return new ResponseEntity<>("new bookDemand has created",HttpStatus.OK);
     }
 
     //this is how we obtain strings from path
     @DeleteMapping(path = "{bookDemandId}")
     public ResponseEntity<String> deleteBookDemand(@PathVariable("bookDemandId") Long bookDemandId){
-        book_demand_service.deleteBookDemand(bookDemandId);
-        return new ResponseEntity<>("book_demand deleted succesfully",HttpStatus.OK);
+        bookDemandService.deleteBookDemand(bookDemandId);
+        return new ResponseEntity<>("bookDemand deleted succesfully",HttpStatus.OK);
     }
     @PutMapping(path = "{bookDemandId}")
     public void updateBookDemand(
@@ -47,7 +47,7 @@ public class BookDemandController {
             @RequestParam(required = false) String title)
 
     {
-        book_demand_service.updateBookDemand(bookDemandId,title);
+        bookDemandService.updateBookDemand(bookDemandId,title);
     }
 
 }

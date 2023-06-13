@@ -18,31 +18,31 @@ import java.util.Optional;
 @Service
 public class LoanService {
 
-    private final LoanRepository loan_repository;
-    private final BookRepository book_repository;
-    private final LibraryUserRepository library_user_repository;
+    private final LoanRepository loanRepository;
+    private final BookRepository bookRepository;
+    private final LibraryUserRepository libraryUserRepository;
 
     @Autowired
-    public LoanService(LoanRepository loan_repository, BookRepository bookRepository, LibraryUserRepository libraryUserRepository) {
-        this.loan_repository = loan_repository;
-        book_repository = bookRepository;
-        library_user_repository = libraryUserRepository;
+    public LoanService(LoanRepository loanRepository, BookRepository bookRepository, LibraryUserRepository libraryUserRepository) {
+        this.loanRepository = loanRepository;
+        this.bookRepository = bookRepository;
+        this.libraryUserRepository = libraryUserRepository;
     }
 
     public List<Loan> getLoans(){
-        return loan_repository.findAll();
+        return loanRepository.findAll();
     }
 
     public void addNewLoan(Loan loan) {
 
 
-        Optional<Book> book = book_repository.findById(loan.getBook().getId());
-        Optional<LibraryUser> libraryUser = library_user_repository.findById(loan.getUser().getId());
+        Optional<Book> book = bookRepository.findById(loan.getBook().getId());
+        Optional<LibraryUser> libraryUser = libraryUserRepository.findById(loan.getUser().getId());
 
         if(book.isPresent()&&libraryUser.isPresent()&& Objects.equals(book.get().getStatus(),"shelf")){
-            Book book_old = book_repository.findById(book.get().getId()).orElseThrow( () ->new IllegalStateException("book with id" + book.get().getId() + "does not exists"));
-            book_old.setStatus("reading");
-            loan_repository.save(loan);
+            Book bookOld = bookRepository.findById(book.get().getId()).orElseThrow( () ->new IllegalStateException("book with id" + book.get().getId() + "does not exists"));
+            bookOld.setStatus("reading");
+            loanRepository.save(loan);
 
         }
         else{
@@ -51,27 +51,27 @@ public class LoanService {
     }
 
     public void deleteLoan(Long loaniId) {
-        boolean exists = loan_repository.existsById(loaniId);
+        boolean exists = loanRepository.existsById(loaniId);
 
         if(!exists)
             throw new IllegalStateException("loan with id" + loaniId + "does not exists");
 
-        loan_repository.deleteById(loaniId);
+        loanRepository.deleteById(loaniId);
 
     }
 
 
-    //with that anotation we dont need library_user  service .
+    //with that anotation we dont need libraryUser  service .
     @Transactional
-    public void updateLoan(Long loanId, Book book, LibraryUser user, LocalDate loan_date, LocalDate return_date) {
+    public void updateLoan(Long loanId, Book book, LibraryUser user, LocalDate loanDate, LocalDate returnDate) {
 
-        Loan loan = loan_repository.findById(loanId).orElseThrow( () ->new IllegalStateException("loan with id" + loanId + "does not exists"));
+        Loan loan = loanRepository.findById(loanId).orElseThrow( () ->new IllegalStateException("loan with id" + loanId + "does not exists"));
 
-        if(loan_date != null  && !Objects.equals(loan.getLoan_date(),return_date)){
-            loan.setLoan_date(loan_date);
+        if(loanDate != null  && !Objects.equals(loan.getLoanDate(),returnDate)){
+            loan.setLoanDate(loanDate);
         }
-        if(return_date != null  && !Objects.equals(loan.getReturn_date(),return_date)){
-            loan.setReturn_date(return_date);
+        if(returnDate != null  && !Objects.equals(loan.getReturnDate(),returnDate)){
+            loan.setReturnDate(returnDate);
         }
 
     }

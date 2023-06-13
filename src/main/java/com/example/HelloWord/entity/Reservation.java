@@ -21,7 +21,7 @@ public class Reservation {
             generator = "reservation_sequence"
     )
     private Long id ;
-    private LocalDate reservation_date;
+    private LocalDate reservationDate;
 
     @OneToOne
     private LibraryUser user;
@@ -34,16 +34,16 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Long id, LocalDate reservation_date, LibraryUser user, Book book, String status) {
+    public Reservation(Long id, LocalDate reservationDate, LibraryUser user, Book book, String status) {
         this.id = id;
-        this.reservation_date = reservation_date;
+        this.reservationDate = reservationDate;
         this.user = user;
         this.book = book;
         this.status = status;
     }
 
-    public Reservation(LocalDate reservation_date, LibraryUser user, Book book, String status) {
-        this.reservation_date = reservation_date;
+    public Reservation(LocalDate reservationDate, LibraryUser user, Book book, String status) {
+        this.reservationDate = reservationDate;
         this.user = user;
         this.book = book;
         this.status = status;
@@ -57,12 +57,12 @@ public class Reservation {
         this.id = id;
     }
 
-    public LocalDate getReservation_date() {
-        return reservation_date;
+    public LocalDate getReservationDate() {
+        return reservationDate;
     }
 
-    public void setReservation_date(LocalDate reservation_date) {
-        this.reservation_date = reservation_date;
+    public void setReservationDate(LocalDate reservationDate) {
+        this.reservationDate = reservationDate;
     }
 
     public LibraryUser getUser() {

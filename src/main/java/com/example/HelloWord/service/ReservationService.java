@@ -18,30 +18,30 @@ import java.util.Optional;
 @Service
 public class ReservationService {
 
-    private final ReservationRepository reservation_repository;
-    private final BookRepository book_repository;
-    private final LibraryUserRepository library_user_repository;
+    private final ReservationRepository reservationRepository;
+    private final BookRepository bookRepository;
+    private final LibraryUserRepository libraryUserRepository;
 
     @Autowired
-    public ReservationService(ReservationRepository reservation_repository, BookRepository bookRepository, LibraryUserRepository libraryUserRepository) {
-        this.reservation_repository = reservation_repository;
-        book_repository = bookRepository;
-        library_user_repository = libraryUserRepository;
+    public ReservationService(ReservationRepository reservationRepository, BookRepository bookRepository, LibraryUserRepository libraryUserRepository) {
+        this.reservationRepository = reservationRepository;
+        this.bookRepository = bookRepository;
+        this.libraryUserRepository = libraryUserRepository;
     }
 
     public List<Reservation> getReservations(){
-        return reservation_repository.findAll();
+        return reservationRepository.findAll();
     }
 
     public void addNewReservation(Reservation reservation) {
 
-        Optional<Book> book = book_repository.findById(reservation.getBook().getId());
-        Optional<LibraryUser> libraryUser = library_user_repository.findById(reservation.getUser().getId());
+        Optional<Book> book = bookRepository.findById(reservation.getBook().getId());
+        Optional<LibraryUser> libraryUser = libraryUserRepository.findById(reservation.getUser().getId());
 
         if(book.isPresent()&&libraryUser.isPresent()&& Objects.equals(book.get().getStatus(),"shelf")){
-            Book book_old = book_repository.findById(book.get().getId()).orElseThrow( () ->new IllegalStateException("book with id" + book.get().getId() + "does not exists"));
-            book_old.setStatus("booked");
-            reservation_repository.save(reservation);
+            Book bookOld = bookRepository.findById(book.get().getId()).orElseThrow( () ->new IllegalStateException("book with id" + book.get().getId() + "does not exists"));
+            bookOld.setStatus("booked");
+            reservationRepository.save(reservation);
 
         }
         else{
@@ -50,21 +50,21 @@ public class ReservationService {
     }
 
     public void deleteReservation(Long reservationiId) {
-        boolean exists = reservation_repository.existsById(reservationiId);
+        boolean exists = reservationRepository.existsById(reservationiId);
 
         if(!exists)
             throw new IllegalStateException("reservation with id" + reservationiId + "does not exists");
 
-        reservation_repository.deleteById(reservationiId);
+        reservationRepository.deleteById(reservationiId);
 
     }
 
 
-    //with that anotation we dont need library_user  service .
+    //with that anotation we dont need libraryUser  service .
     @Transactional
     public void updateReservation(Long reservationId, String status) {
 
-        Reservation reservation = reservation_repository.findById(reservationId).orElseThrow( () ->new IllegalStateException("reservation with id" + reservationId + "does not exists"));
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow( () ->new IllegalStateException("reservation with id" + reservationId + "does not exists"));
 
         if(status != null  && !Objects.equals(reservation.getStatus(),status)){
             reservation.setStatus(status);

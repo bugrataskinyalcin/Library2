@@ -14,47 +14,47 @@ import java.util.Optional;
 @Service
 public class LibraryUserService {
 
-    private final LibraryUserRepository library_user_repository;
+    private final LibraryUserRepository libraryUserRepository;
 
     @Autowired
-    public LibraryUserService(LibraryUserRepository library_user_repository) {
-        this.library_user_repository = library_user_repository;
+    public LibraryUserService(LibraryUserRepository libraryUserRepository) {
+        this.libraryUserRepository = libraryUserRepository;
     }
 
-    public List<LibraryUser> getlibrary_users(){
-        return library_user_repository.findAll();
+    public List<LibraryUser> getLibraryUsers(){
+        return libraryUserRepository.findAll();
     }
 
-    public void addNewlibrary_user(LibraryUser library_user) {
-            library_user_repository.save(library_user);
+    public void addNewLibraryUser(LibraryUser libraryUser) {
+            libraryUserRepository.save(libraryUser);
     }
 
-    public void deletelibrary_user(Long library_userId) {
-        boolean exists = library_user_repository.existsById(library_userId);
+    public void deleteLibraryUser(Long libraryUserId) {
+        boolean exists = libraryUserRepository.existsById(libraryUserId);
 
         if(!exists)
-            throw new IllegalStateException("library_user with id" + library_userId + "does not exists");
+            throw new IllegalStateException("libraryUser with id" + libraryUserId + "does not exists");
 
-        library_user_repository.deleteById(library_userId);
+        libraryUserRepository.deleteById(libraryUserId);
 
     }
 
 
-    //with that anotation we dont need library_user  service .
+    //with that anotation we dont need libraryUser  service .
     @Transactional
-    public void updatelibrary_user(Long library_userId, String first_name,String last_name,String status) {
+    public void updateLibraryUser(Long libraryUserId, String firstName,String lastName,String status) {
 
-        LibraryUser library_user = library_user_repository.findById(library_userId).orElseThrow( () ->new IllegalStateException("library_user with id" + library_userId + "does not exists"));
+        LibraryUser libraryUser = libraryUserRepository.findById(libraryUserId).orElseThrow( () ->new IllegalStateException("libraryUser with id" + libraryUserId + "does not exists"));
 
-        if(first_name != null && first_name.length()>0 && !Objects.equals(library_user.getFirst_name(),first_name)){
-            library_user.setFirst_name(first_name);
+        if(firstName != null && firstName.length()>0 && !Objects.equals(libraryUser.getFirstName(),firstName)){
+            libraryUser.setFirstName(firstName);
         }
-        if(last_name != null && last_name.length()>0 && !Objects.equals(library_user.getLast_name(),last_name)){
-            library_user.setLast_name(last_name);
+        if(lastName != null && lastName.length()>0 && !Objects.equals(libraryUser.getLastName(),lastName)){
+            libraryUser.setLastName(lastName);
         }
 
-        if(status != null && status.length()>0 && !Objects.equals(library_user.getStatus(),status)){
-            library_user.setStatus(status);
+        if(status != null && status.length()>0 && !Objects.equals(libraryUser.getStatus(),status)){
+            libraryUser.setStatus(status);
         }
     }
 }

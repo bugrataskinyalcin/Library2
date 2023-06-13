@@ -17,28 +17,28 @@ import java.util.List;
 @RequestMapping(path="/api/v1/reservation")
 public class ReservationController {
 
-    private  final ReservationService reservation_service;
+    private  final ReservationService reservationService;
 
     @Autowired
-    public ReservationController(ReservationService reservation_service) {
-        this.reservation_service = reservation_service;
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
     }
 
     @GetMapping
     public ResponseEntity< List<Reservation> > getReservations(){
-        return  new ResponseEntity<>(reservation_service.getReservations(),HttpStatus.OK);
+        return  new ResponseEntity<>(reservationService.getReservations(),HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<String> createNewReservation(@RequestBody Reservation reservation){
-        reservation_service.addNewReservation(reservation);
+        reservationService.addNewReservation(reservation);
         return new ResponseEntity<>("new reservation has created",HttpStatus.OK);
     }
 
     //this is how we obtain strings from path
     @DeleteMapping(path = "{reservationId}")
     public ResponseEntity<String> deleteReservation(@PathVariable("reservationId") Long reservationId){
-        reservation_service.deleteReservation(reservationId);
+        reservationService.deleteReservation(reservationId);
         return new ResponseEntity<>("reservation deleted succesfully",HttpStatus.OK);
     }
     @PutMapping(path = "{reservationId}")
@@ -46,7 +46,7 @@ public class ReservationController {
             @PathVariable("reservationId") Long reservationId,
             @RequestParam(required = false) String status)
     {
-        reservation_service.updateReservation(reservationId,status);
+        reservationService.updateReservation(reservationId,status);
     }
 
 }

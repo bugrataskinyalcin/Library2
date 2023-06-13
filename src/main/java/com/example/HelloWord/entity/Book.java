@@ -34,10 +34,10 @@ public class Book {
         this.status = status;
     }
 
-    public Book(String title, String status, LocalDate publication_date) {
+    public Book(String title, String status, LocalDate publicationDate) {
         this.title = title;
         this.status = status;
-        this.publication_date = publication_date;
+        this.publicationDate = publicationDate;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", publication_date=" + publication_date+
+                ", publicationDate=" + publicationDate+
                 '}';
     }
 
@@ -65,19 +65,19 @@ public class Book {
         this.title = title;
     }
 
-    public LocalDate getPublication_date() {
-        return publication_date;
+    public LocalDate getPublicationDate() {
+        return publicationDate;
     }
 
-    public void setPublication_date(LocalDate publication_date) {
-        this.publication_date = publication_date;
+    public void setPublicationDate(LocalDate publicationDate) {
+        this.publicationDate = publicationDate;
     }
 
 
     public Book() {
     }
 
-    private LocalDate publication_date;
+    private LocalDate publicationDate;
 
 
 

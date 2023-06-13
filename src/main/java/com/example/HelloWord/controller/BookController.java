@@ -41,9 +41,9 @@ public class BookController {
     public void updateBook(
             @PathVariable("bookId") Long bookId,
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) String book_status)
+            @RequestParam(required = false) String bookStatus)
     {
-        bookService.updateBook(bookId,title,book_status);
+        bookService.updateBook(bookId,title,bookStatus);
     }
 
 }

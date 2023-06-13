@@ -10,41 +10,41 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/v1/library_user")
+@RequestMapping(path="/api/v1/libraryUser")
 public class LibraryUserController {
 
-    private  final LibraryUserService library_user_service;
+    private  final LibraryUserService libraryUserService;
 
     @Autowired
-    public LibraryUserController(LibraryUserService library_user_service) {
-        this.library_user_service = library_user_service;
+    public LibraryUserController(LibraryUserService libraryUserService) {
+        this.libraryUserService = libraryUserService;
     }
 
     @GetMapping
-    public ResponseEntity< List<LibraryUser> > getlibrary_users(){
-        return  new ResponseEntity<>(library_user_service.getlibrary_users(),HttpStatus.OK);
+    public ResponseEntity< List<LibraryUser> > getLibraryUsers(){
+        return  new ResponseEntity<>(libraryUserService.getLibraryUsers(),HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> registerNewlibrary_user(@RequestBody LibraryUser library_user){
-        library_user_service.addNewlibrary_user(library_user);
-        return new ResponseEntity<>("library_user created succesfully",HttpStatus.OK);
+    public ResponseEntity<String> registerNewLibraryUser(@RequestBody LibraryUser libraryUser){
+        libraryUserService.addNewLibraryUser(libraryUser);
+        return new ResponseEntity<>("libraryUser created succesfully",HttpStatus.OK);
     }
 
     //this is how we obtain strings from path
-    @DeleteMapping(path = "{library_userId}")
-    public ResponseEntity<String> deletelibrary_user(@PathVariable("library_userId") Long library_userId){
-        library_user_service.deletelibrary_user(library_userId);
-        return new ResponseEntity<>("library_user deleted succesfully",HttpStatus.OK);
+    @DeleteMapping(path = "{libraryUserId}")
+    public ResponseEntity<String> deleteLibraryUser(@PathVariable("libraryUserId") Long libraryUserId){
+        libraryUserService.deleteLibraryUser(libraryUserId);
+        return new ResponseEntity<>("libraryUser deleted succesfully",HttpStatus.OK);
     }
-    @PutMapping(path = "{library_userId}")
-    public void updatelibrary_user(
-            @PathVariable("library_userId") Long library_userId,
-            @RequestParam(required = false) String first_name,
-            @RequestParam(required = false) String last_name,
-            @RequestParam(required = false) String library_user_status)
+    @PutMapping(path = "{libraryUserId}")
+    public void updateLibraryUser(
+            @PathVariable("libraryUserId") Long libraryUserId,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String libraryUserStatus)
     {
-        library_user_service.updatelibrary_user(library_userId,first_name,last_name,library_user_status);
+        libraryUserService.updateLibraryUser(libraryUserId,firstName,lastName,libraryUserStatus);
     }
 
 }
