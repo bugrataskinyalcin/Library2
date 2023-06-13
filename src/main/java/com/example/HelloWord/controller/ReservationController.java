@@ -6,6 +6,9 @@ import com.example.HelloWord.service.ReservationService;
 import com.example.HelloWord.entity.Reservation;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ public class ReservationController {
     }
 
     @GetMapping
+    @Cacheable(value = "reservations")
     public ResponseEntity< List<Reservation> > getReservations(){
         return  new ResponseEntity<>(reservationService.getReservations(),HttpStatus.OK);
     }
@@ -37,11 +41,13 @@ public class ReservationController {
 
     //this is how we obtain strings from path
     @DeleteMapping(path = "{reservationId}")
+    @CacheEvict(value = "reservations",allEntries = true)
     public ResponseEntity<String> deleteReservation(@PathVariable("reservationId") Long reservationId){
         reservationService.deleteReservation(reservationId);
         return new ResponseEntity<>("reservation deleted succesfully",HttpStatus.OK);
     }
     @PutMapping(path = "{reservationId}")
+    @CachePut(value = "reservations",key = "#reservationId")
     public void updateReservation(
             @PathVariable("reservationId") Long reservationId,
             @RequestParam(required = false) String status)

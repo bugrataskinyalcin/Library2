@@ -6,6 +6,9 @@ import com.example.HelloWord.service.BookDemandService;
 import com.example.HelloWord.entity.BookDemand;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ public class BookDemandController {
     }
 
     @GetMapping
+    @Cacheable(value = "bookDemands")
     public ResponseEntity< List<BookDemand> > getBookDemands(){
         return  new ResponseEntity<>(bookDemandService.getBookDemands(),HttpStatus.OK);
     }
@@ -37,11 +41,13 @@ public class BookDemandController {
 
     //this is how we obtain strings from path
     @DeleteMapping(path = "{bookDemandId}")
+    @CacheEvict(value = "bookDemands",allEntries = true)
     public ResponseEntity<String> deleteBookDemand(@PathVariable("bookDemandId") Long bookDemandId){
         bookDemandService.deleteBookDemand(bookDemandId);
         return new ResponseEntity<>("bookDemand deleted succesfully",HttpStatus.OK);
     }
     @PutMapping(path = "{bookDemandId}")
+    @CachePut(value = "bookDemands",key = "#bookDemandId")
     public void updateBookDemand(
             @PathVariable("bookDemandId") Long bookDemandId,
             @RequestParam(required = false) String title)

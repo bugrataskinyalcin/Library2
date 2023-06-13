@@ -3,6 +3,9 @@ package com.example.HelloWord.controller;
 import com.example.HelloWord.service.LibraryUserService;
 import com.example.HelloWord.entity.LibraryUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,7 @@ public class LibraryUserController {
     }
 
     @GetMapping
+    @Cacheable(value = "libraryUsers")
     public ResponseEntity< List<LibraryUser> > getLibraryUsers(){
         return  new ResponseEntity<>(libraryUserService.getLibraryUsers(),HttpStatus.OK);
     }
@@ -33,11 +37,13 @@ public class LibraryUserController {
 
     //this is how we obtain strings from path
     @DeleteMapping(path = "{libraryUserId}")
+    @CacheEvict(value = "libraryUsers",allEntries = true)
     public ResponseEntity<String> deleteLibraryUser(@PathVariable("libraryUserId") Long libraryUserId){
         libraryUserService.deleteLibraryUser(libraryUserId);
         return new ResponseEntity<>("libraryUser deleted succesfully",HttpStatus.OK);
     }
     @PutMapping(path = "{libraryUserId}")
+    @CachePut(value = "libraryUsers",key = "#libraryUserId")
     public void updateLibraryUser(
             @PathVariable("libraryUserId") Long libraryUserId,
             @RequestParam(required = false) String firstName,

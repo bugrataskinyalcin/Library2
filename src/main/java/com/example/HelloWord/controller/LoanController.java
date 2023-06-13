@@ -6,6 +6,9 @@ import com.example.HelloWord.service.LoanService;
 import com.example.HelloWord.entity.Loan;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ public class LoanController {
     }
 
     @GetMapping
+    @Cacheable(value = "loans")
     public ResponseEntity< List<Loan> > getLoans(){
         return  new ResponseEntity<>(loanService.getLoans(),HttpStatus.OK);
     }
@@ -37,11 +41,13 @@ public class LoanController {
 
     //this is how we obtain strings from path
     @DeleteMapping(path = "{loanId}")
+    @CacheEvict(value = "loans",allEntries = true)
     public ResponseEntity<String> deleteLoan(@PathVariable("loanId") Long loanId){
         loanService.deleteLoan(loanId);
         return new ResponseEntity<>("loan deleted succesfully",HttpStatus.OK);
     }
     @PutMapping(path = "{loanId}")
+    @CachePut(value = "loans",key = "#loanId")
     public void updateLoan(
             @PathVariable("loanId") Long loanId,
             @RequestParam(required = false) Book book,
