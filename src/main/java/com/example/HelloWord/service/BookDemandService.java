@@ -2,6 +2,7 @@ package com.example.HelloWord.service;
 
 import com.example.HelloWord.entity.Book;
 import com.example.HelloWord.entity.BookDemand;
+import com.example.HelloWord.exception.ApiRequestException;
 import com.example.HelloWord.repository.BookDemandRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class BookDemandService {
         boolean exists = bookDemandRepository.existsById(bookDemandId);
 
         if(!exists)
-            throw new IllegalStateException("bookDemand with id" + bookDemandId + "does not exists");
+            throw new ApiRequestException("bookDemand with id" + bookDemandId + "does not exists");
 
         bookDemandRepository.deleteById(bookDemandId);
 
@@ -44,7 +45,7 @@ public class BookDemandService {
     @Transactional
     public void updateBookDemand(Long bookDemandId,String title) {
 
-        BookDemand bookDemand = bookDemandRepository.findById(bookDemandId).orElseThrow( () ->new IllegalStateException("bookDemand with id" + bookDemandId + "does not exists"));
+        BookDemand bookDemand = bookDemandRepository.findById(bookDemandId).orElseThrow( () ->new ApiRequestException("bookDemand with id" + bookDemandId + "does not exists"));
 
         if(title != null && title.length()>0 && !Objects.equals(bookDemand.getTitle(),title)){
             bookDemand.setTitle(title);
